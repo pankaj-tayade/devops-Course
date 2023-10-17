@@ -24,7 +24,4 @@ jobs:
     - name: Count Lines of Code (cloc)
       uses: djdefi/cloc-action@5
 
-    - name: Code Coverage Summary Report
-      uses: irongut/CodeCoverageSummary@v1.3.0
-      with:
-       filename: coverage.cobertura.xml
+    
