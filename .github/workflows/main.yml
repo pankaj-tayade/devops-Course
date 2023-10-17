@@ -19,11 +19,12 @@ jobs:
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v3
+    
+    # Runs djdefi/cloc-action
+    - name: Count Lines of Code (cloc)
+      uses: djdefi/cloc-action@5
+
     - name: Code Coverage Summary Report
       uses: irongut/CodeCoverageSummary@v1.3.0
       with:
        filename: coverage.cobertura.xml
-
-    # Runs djdefi/cloc-action
-    - name: Count Lines of Code (cloc)
-      uses: djdefi/cloc-action@5
