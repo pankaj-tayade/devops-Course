@@ -1,7 +1,10 @@
 name: Run the Action on each commit
 on:
   push:
-    branches-ignore: main
+    branches:
+      - main
+      - br1
+      - feature/test
 jobs:
   action-pull-request:
     runs-on: ubuntu-latest
