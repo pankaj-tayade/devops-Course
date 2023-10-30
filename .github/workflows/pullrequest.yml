@@ -1,4 +1,4 @@
-name: Update AUTHORS
+name: Pull request
 on:
   push:
     branches:
