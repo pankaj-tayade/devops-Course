@@ -21,6 +21,6 @@ jobs:
     - name: Count Lines of Code (cloc)
       uses: djdefi/cloc-action@5
       with:
-          directory: "jenkinsfiles"
+        config-path: .github/labeler.yml
 
     
