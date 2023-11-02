@@ -12,3 +12,6 @@ jobs:
           ignore: master,develop # Ignore exactly matching branch names from convention
           min_length: 5 # Min length of the branch name
           max_length: 50 # Max length of the branch name
+      # Runs djdefi/cloc-action
+      - name: Count Lines of Code (cloc)
+        uses: djdefi/cloc-action@5
