@@ -16,7 +16,7 @@ jobs:
         uses: PavanMudigonda/lines-of-code-reporter@v1.5
         with:
           directory: "./jenkinsfiles " #Optional #Comma Seperated
-          include_ext: "ts,js"                      #Optional # Comma Seperated
+          include_ext: "ts,js,txt"                      #Optional # Comma Seperated
           exclude_dir: "node_modules,.github"       #Optional # Comma Seperated
           exclude_ext: "ps1,go,sh"                  #Optional # Comma Seperated
 
