@@ -18,7 +18,8 @@ jobs:
         id: loc
         uses: PavanMudigonda/lines-of-code-reporter@v1.5
         with:
-          directory: ./jenkinsfiles
+          directory: "jenkinsfiles"
+          include_lang: "text,txt"
           github_token: ${{ secrets.GITHUB_TOKEN }}
           skip_check_run: false
           exclude_lang: "JSON"
