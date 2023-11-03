@@ -17,9 +17,7 @@ jobs:
         with:
           directory: "./jenkinsfiles " #Optional #Comma Seperated
           include_ext: "ts,js,txt"                      #Optional # Comma Seperated
-          exclude_dir: "node_modules,.github"       #Optional # Comma Seperated
-          exclude_ext: "ps1,go,sh"                  #Optional # Comma Seperated
-
+          
       # Publish Lines of Code Summary  # Optional
       - name: Add Lines of Code Summary
         run: echo "${{ steps.loc.outputs.lines-of-code-summary }}" >> $GITHUB_STEP_SUMMARY
