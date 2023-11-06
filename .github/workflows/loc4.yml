@@ -1,9 +1,7 @@
-name: test
+name: Line of code
 #3
 on:
-  push:
-  release:
-    types: published
+  workflow_dispatch:
 
 jobs:
 
