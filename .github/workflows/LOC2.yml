@@ -19,7 +19,7 @@ jobs:
           #include_lang: "JavaScript,TypeScript"     #Optional # Comma Seperated
           include_ext: "ts,js,tsx"
           #exclude_lang: "PowerShell,Shell,Go"       #Optional # Comma Seperated
-          #exclude_dir: ".github"                    #Optional # Comma Seperated
+          exclude_dir: ".github"                    #Optional # Comma Seperated
 
       # Publish Lines of Code Summary  # Optional
       - name: Add Lines of Code Summary
