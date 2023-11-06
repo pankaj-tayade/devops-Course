@@ -15,7 +15,7 @@ jobs:
         id: loc
         uses: PavanMudigonda/lines-of-code-reporter@v1.5
         with:
-          directory: "src,test,utils"               #Optional #Comma Seperated
+          directory: "src"               #Optional #Comma Seperated
           include_lang: "JavaScript,TypeScript"     #Optional # Comma Seperated
           github_token: ${{ secrets.GITHUB_TOKEN }}
           skip_check_run: false
