@@ -11,5 +11,5 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          ref: nightly/release3.7.0.1
+          ref: nightly/***
 
