@@ -9,16 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate-branch-name:
-    name: Validate Branch Name
-    runs-on: ubuntu-latest
-    steps:
-      - uses: deepakputhraya/action-branch-name@master
-        with:
-          regex: '[a-z0-9-]{5,}' # TA-1234_my-feature-branch OR chore_my-work
-          allowed_prefixes: 'feature,nightly,bugfix,hotfix,dependabot,TA-' # All branches should start with the given prefix
-          ignore: main,preview,production # Ignore exactly matching branch names from convention
-
+  
   test:
     name: Tests
     runs-on: ubuntu-latest
