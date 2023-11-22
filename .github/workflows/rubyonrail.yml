@@ -1,0 +1,99 @@
+ #This workflow uses actions that are not certified by GitHub.  They are
+# provided by a third-party and are governed by separate terms of service,
+# privacy policy, and support documentation.
+#
+# This workflow will install a prebuilt Ruby version, install dependencies, and
+# run tests and linters.
+name: "Ruby on Rails CI"
+on: pull_request
+
+jobs:
+  validate-branch-name:
+    name: Validate Branch Name
+    runs-on: ubuntu-latest
+    steps:
+      - uses: deepakputhraya/action-branch-name@master
+        with:
+          regex: '[a-z0-9-]{5,}' # TA-1234_my-feature-branch OR chore_my-work
+          allowed_prefixes: 'feature,nightly,bugfix,hotfix,dependabot,TA-' # All branches should start with the given prefix
+          ignore: main,preview,production # Ignore exactly matching branch names from convention
+
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:11-alpine
+        ports:
+          - "5432:5432"
+        env:
+          POSTGRES_DB: rails_test
+          POSTGRES_USER: rails
+          POSTGRES_PASSWORD: password
+      redis:
+        image: redis:alpine
+        ports: ["6379:6379"]
+        options: --entrypoint redis-server
+                 --health-cmd "redis-cli ping"
+    env:
+      RAILS_ENV: test
+      DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Add or replace dependency steps here
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      # Add or replace database setup steps here
+      - name: Set up database schema
+        run: bin/rails db:schema:load
+
+      # Generate assets
+      - name: Precompile assets
+        run: bin/rails assets:precompile
+
+      # Add or replace test runners here
+      - name: Run tests
+        run: bin/rake
+
+      - name: Retrieve coverage percent
+        if: ${{ github.ref == 'refs/heads/main' }}
+        id: coverage_percent
+        run: |
+          percent=`cat coverage/.last_run.json | jq '.result.line'`
+          echo "value=$percent" >> $GITHUB_OUTPUT
+      - name: Send Coverage Results to Slack
+        uses: slackapi/slack-github-action@v1.24.0
+        if: ${{ github.ref == 'refs/heads/main' }}
+        with:
+          payload: |
+            {
+              "appName": "TaskTag - Web",
+              "percent": "${{ steps.coverage_percent.outputs.value }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  linters:
+    name: Linters
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Install Ruby and gems
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      # Add or replace any other lints here
+      - name: Security audit dependencies
+        run: bin/bundler-audit --update
+      - name: Security audit application code
+        run: bin/brakeman -q -w2
+# NOTE: Disabling Rubocop since there Jumpstart Pro does not use it.
+# - name: Lint Ruby files
+#   run: bin/rubocop --parallel
